@@ -1,16 +1,30 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
+import '@polymer/paper-card/paper-card.js';
+import '@polymer/polymer/lib/elements/dom-repeat.js';
+import '@polymer/paper-button/paper-button.js';
+import '@polymer/app-route/app-location.js';
+import '@polymer/iron-ajax/iron-ajax.js';
 
 
 /**
  * @customElement
  * @polymer
  */
-class RegisterPage extends PolymerElement {
+class UserPage extends PolymerElement {
     static get template() {
         return html`
-        <div class="container">
-            <div class="nav"></div>
-            <div class="main"></div>
+        <app-location route={{route}}></app-location>
+        <div class="cards">
+        <template is="dom-repeat" items={{vendrData}}>
+            <paper-card image="http://placehold.it/350x150/FFC107/000000" alt="Emmental">
+                <div class="card-content">
+                 <h3>{{item.vendorName}}</h3>
+                </div>
+                <div class="card-action">
+                    <paper-button on-click="_handleGetRecipe">ORDER</paper-button>
+                </div>
+            </paper-card>
+        </template>
         </div>
     `;
     }
@@ -23,22 +37,43 @@ class RegisterPage extends PolymerElement {
                 type: String,
                 value: 'List'
             },
-            registrationResponse: {
-                type: Array,
-                value: []
+            customerData:{
+                type:Array,
+                value:this.customerData
+            },
+            vendorData:{
+                type:Array,
+                value:[]
+            },
+            recipes:{
+                type:Array,
+                value:[]
             }
         };
+    }
+
+    _handleGetRecipe(event){
+        this.action="recipe";
+        this._makeAjax('','get',null)
     }
 
     _handleResponse(event) {
         switch (this.action) {
             case 'List':
-                this.registrationResponse = event.detail.response;
-                this.set('route.path', '/login')
+                this.vendorData=event.detail.response;
                 break;
-
+            case 'recipe':
+                this.recipes=event.detail.response;
+                this.dispatchEvent('send-recipes',{detail:{item:this.recipes},bubbles:true,composed:true});
+                this.set('route.path','/recipe');
+                break;
             default:break;
         }
+    }
+
+    connectedCallback(){
+        super.connectedCallback();
+        this._makeAjax('','get',null)
     }
 
     _makeAjax(url, method, postObj) {
@@ -50,4 +85,4 @@ class RegisterPage extends PolymerElement {
     }
 }
 
-window.customElements.define('register-page', RegisterPage);
+window.customElements.define('user-page', UserPage);

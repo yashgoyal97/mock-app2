@@ -5,6 +5,7 @@ import '@polymer/paper-button/paper-button.js';
 import '@polymer/app-route/app-location.js';
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import '@polymer/iron-ajax/iron-ajax.js';
+import '@polymer/paper-dialog/paper-dialog.js';
 
 /**
  * @customElement
@@ -48,12 +49,20 @@ class RegisterPage extends PolymerElement {
                     <paper-toggle-button id="customer" name="customer" on-change="_handleCustomerToggle">Customer</paper-toggle-button>
                     <paper-toggle-button id="vendor" name="vendor" on-change="_handleVendorToggle">Vendor</paper-toggle-button>
                     </div>
-                    <paper-button raised on-click="_handleRegister">REGISTER</paper-button>
                     <hr>
-                    <h4>EXISTING USER: Click <a href="#" on-click="_handleGoToLogin">here</a> to login</h4>
+                    <paper-button raised on-click="_handleRegister">REGISTER</paper-button><sub> Existing User: Click <a href="#" on-click="_handleGoToLogin">here</a></sub>
                 </form>
             </iron-form>
         </div>
+        <paper-dialog id="myTicketDialog" modal>
+                <div>
+                <h3>Login Credentials:</h3>
+                    - Use your Email Id as password<br>
+                    - Password: {{registrationResponse.password}}
+                    <hr>
+                    <paper-button dialog-confirm autofocus raised>Tap me to close</paper-button>
+                </div>
+            </paper-dialog>
         <iron-ajax id="ajax" handle-as="json" content-type="application/json" on-response="_handleResponse"></iron-ajax>
     `;
     }
@@ -99,12 +108,12 @@ class RegisterPage extends PolymerElement {
             if (isVendor.checked) {
                 registerObj = { vendorName: this.$.name.value, email: this.$.email.value, phoneNumber: this.$.phone.value };
                 this.action = 'vendorList';
-                // this._makeAjax('', 'post', registerObj);
+                this._makeAjax('http://10.117.189.177:8088/foodzone/vendors', 'post', registerObj);
             }
             else if (isCustomer.checked) {
                 registerObj = { customerName: this.$.name.value, email: this.$.email.value, phoneNumber: this.$.phone.value, password: this.$.password.value }
                 this.action = 'customerList';
-                // this._makeAjax('', post, registerObj);
+                this._makeAjax('http://10.117.189.177:8088/foodzone/customers/registration', post, registerObj);
             }
             console.log(registerObj)
             isVendor.checked=false;
@@ -130,7 +139,9 @@ class RegisterPage extends PolymerElement {
         switch (this.action) {
             case 'vendorList':
                 this.registrationResponse = event.detail.response;
-                this.set('route.path', '/login')
+                console.log(this.registrationResponse)
+                this.$.myTicketDialog.open();
+                // this.set('route.path', '/login')
                 break;
 
             case 'customerList':

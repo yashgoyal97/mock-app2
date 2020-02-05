@@ -19,6 +19,7 @@ class LoginPage extends PolymerElement {
             padding:20px;
             border: 2px solid;
             border-radius:5px;
+            width:700px;
         }
       </style>
         <app-location route={{route}}></app-location>
@@ -31,18 +32,18 @@ class LoginPage extends PolymerElement {
                 <div>
                     <iron-form id="customerForm">
                     <form>
-                        <paper-input required error-message="This field is required" id="custUsername" label="Customer Username" type="text"></paper-input>
-                        <paper-input required error-message="This field is required" id="password" label="Password" type="password"></paper-input>
+                        <paper-input required error-message="This field is required" id="custUsername" label="Customer Username"></paper-input>
+                        <paper-input required error-message="This field is required" id="custPassword" label="Password" type="password"></paper-input>
                         <paper-button label="Login" raised on-click="_handleCustomerLogin">Login</paper-button>
-                        <sub>New User? <a href="#">SignUp</a></sub>
+                        <sub> New User? <a href="#" on-click="_handleGoToRegister">SignUp</a></sub>
                         </form>
                         </iron-form>
                 </div>
                 <div>
                     <iron-form id="vendorForm">
                     <form>
-                        <paper-input required error-message="This field is required" id="vendorUsername" label="Vendor Username" type="text"></paper-input>
-                        <paper-input required error-message="This field is required" id="password" label="Password" type="password"></paper-input>
+                        <paper-input required error-message="This field is required" id="vendorUsername" label="Vendor Username"></paper-input>
+                        <paper-input required error-message="This field is required" id="vendorPassword" label="Password" type="password"></paper-input>
                         <paper-button label="Login" raised on-click="_handleVendorLogin">Login</paper-button>
                         <sub>New User?:<a href="#" on-click="_handleGoToRegister">SignUp</a></sub>
                         </form>
@@ -67,39 +68,60 @@ class LoginPage extends PolymerElement {
             action: {
                 type: String,
                 value: 'List'
+            },
+            customerData: {
+                type: Array,
+                value: []
+            },
+            vendorData: {
+                type: Array,
+                value: []
             }
         };
     }
 
-    _handleGoToRegister(){
-        this.set('route.path','/register')
+    _handleResponse() {
+        switch (this.action) {
+            case 'vendor':
+                this.vendorData = event.detail.response;
+                this.dispatchEvent(new CustomEvent('get-vendor',{detail:{item:this.vendorData},bubbles:true,composed:true}))
+                this.set('route.path','/vendor');
+                break;
+            case 'customer':
+                this.customerData = event.detail.response;
+                this.dispatchEvent(new CustomEvent('get-customer',{detail:{item:this.customerData},bubbles:true,composed:true}))
+                this.set('route.path','/user');
+                break;
+            default: break;
+        }
+
+    }
+
+    _handleGoToRegister() {
+        this.set('route.path', '/register')
     }
 
     _handleCustomerLogin() {
         if (this.$.customerForm.validate()) {
-            let email = this.$.vendorUsername.value;
-            let password = this.$.password.value;
-            let customerObj = { email, password }
-            this._makeAjaxCall('', 'post', customerObj);
+            let customerObj = { email: this.$.custUsername.value, password: this.$.custPassword.value }
+            console.log(customerObj);
             this.$.customerForm.reset();
+            this.action = 'customer';
+            this._makeAjaxCall('http://10.117.189.177:8088/foodzone/customers/login', 'post', customerObj);
         }
     }
     _handleVendorLogin() {
         if (this.$.vendorForm.validate()) {
             let email = this.$.vendorUsername.value;
-            let password = this.$.password.value;
+            let password = this.$.vendorPassword.value;
             let vendorObj = { email, password }
-            this.makeAjax('', 'post', vendorObj);
+            console.log(vendorObj);
             this.$.customerForm.reset();
+            this.action = 'vendor';
+            this.makeAjax('http://10.117.189.177:8088/foodzone/vendors/login', 'post', vendorObj);
         }
     }
-    _handleResponse() {
-        switch (this.action) {
-            case 'List':
-                break;
-        }
 
-    }
     _makeAjaxCall(url, method, postObj) {
         let ajax = this.$.ajax;
         ajax.url = url;
