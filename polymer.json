@@ -4,5 +4,53 @@
     "rules": [
       "polymer-3"
     ]
-  }
+  },
+    "entrypoint": "index.html",
+    "shell": "src/mock-app2-app.js",
+    "fragments": [
+      "/src/history-page.js",
+      "/src/login-page.js",
+      "/src/manage-page.js",
+      "/src/order-page.js",
+      "/src/payment-page.js",
+      "/src/recipe-page.js",
+      "/src/register-page.js",
+      "/src/user-page.js",
+      "/src/vendor-page.js"
+    ],
+    "sources": [
+     "src/**/*",
+     "manifest/**",
+     "package.json"
+    ],
+    "extraDependencies": [
+      "manifest.json",
+      "node_modules/@webcomponents/webcomponentsjs/**"
+    ],
+    "moduleResolution": "node",
+    "builds": [
+      { 
+        "name": "es5prod",
+        "preset": "es5-bundled",
+        "addServiceWorker": true
+      },
+      { 
+        "preset": "es6-bundled",
+        "addServiceWorker": true
+      },
+      { 
+        "name": "es6prod",
+        "preset": "es6-unbundled",
+        "addServiceWorker": true
+      },
+      { 
+        "name": "dev",
+        "addServiceWorker": false,
+        "js": {"minify": false, "compile": false},
+        "css": {"minify": false},
+        "html": {"minify": false},
+        "bundle": false,
+        "addPushManifest": false
+      }
+    ]
 }

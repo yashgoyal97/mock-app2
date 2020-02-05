@@ -133,7 +133,7 @@ class MockApp2App extends PolymerElement {
         <order-page name="order" id="order"></order-page>
         <vendor-page name="vendor" id="vendor" vendor-data={{vendorData}}></vendor-page>
         <pending-page name="pending" id="pending" confirmed-order={{confirmedOrder}}></pending-page>
-        <history-page name="history" id="history"></history-page>
+        <history-page name="history" id="history" vendor-data={{vendorData}}></history-page>
         <manage-page name="manage" id="manage"></manage-page>
       </iron-pages>
       </div>

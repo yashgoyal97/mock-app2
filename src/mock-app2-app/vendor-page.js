@@ -18,10 +18,9 @@ class VendorPage extends PolymerElement {
                         <hr>
                         <h4>Customer Name:{{item.customer.customerName}}</h4><br>
                         <h3>Items Orderes:</h3><br>
-                        <hr>
                         <template is="dom-repeat" items={{item.recipes}}>
                         <h4>Name:{{item.recipeName}}</h4><br>
-                        <h4>Price:{{item.unitPrice}}</h4><br>
+                        <h4>Price:{{item.unitPrice}}</h4>
                         </template>
                         </div>
                         <div class="card-action">
