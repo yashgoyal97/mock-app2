@@ -34,6 +34,7 @@ class RegisterPage extends PolymerElement {
                 display:none;
             }
         </style>
+        <app-location route={{route}}></app-location>
         <div id="registrationContainer">
             <iron-form id="registrationForm">
                 <form>
@@ -55,6 +56,10 @@ class RegisterPage extends PolymerElement {
         </div>
         <iron-ajax id="ajax" handle-as="json" content-type="application/json" on-response="_handleResponse"></iron-ajax>
     `;
+    }
+
+    _handleGoToLogin(){
+        this.set('route.path','/login');
     }
 
     _handleCustomerToggle() {

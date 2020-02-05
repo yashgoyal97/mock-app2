@@ -84,7 +84,7 @@ class MockApp2App extends PolymerElement {
 
   _routePageChanged(page) {
     if (!page) {
-      this.page = 'register';
+      this.page = 'login';
     } else if (['login', 'register', 'user', 'vendor', 'cart', 'order', 'pending', 'history', 'recipe'].indexOf(page) !== -1) {
       this.page = page;
     } else {
