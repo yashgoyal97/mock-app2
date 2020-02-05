@@ -13,10 +13,12 @@ import '@polymer/iron-ajax/iron-ajax.js';
 class UserPage extends PolymerElement {
     static get template() {
         return html`
+        <style>
+        </style>
         <app-location route={{route}}></app-location>
         <div class="cards">
-        <template is="dom-repeat" items={{vendrData}}>
-            <paper-card image="http://placehold.it/350x150/FFC107/000000" alt="Emmental">
+        <template is="dom-repeat" items={{vendorData}}>
+            <paper-card image="./../../images/vendors.jpg">
                 <div class="card-content">
                  <h3>{{item.vendorName}}</h3>
                 </div>
@@ -26,6 +28,7 @@ class UserPage extends PolymerElement {
             </paper-card>
         </template>
         </div>
+        <iron-ajax id="ajax" handle-as="json" content-type="application/json" on-response="_handleResponse"></iron-ajax>
     `;
     }
 
@@ -54,17 +57,20 @@ class UserPage extends PolymerElement {
 
     _handleGetRecipe(event){
         this.action="recipe";
-        this._makeAjax('','get',null)
+        console.log(this.customerData,"in user")
+        this._makeAjax(`http://10.117.189.89:8088/foodzone/vendors/${event.model.item.vendorId}/recipes`,'get',null)
     }
 
     _handleResponse(event) {
         switch (this.action) {
             case 'List':
                 this.vendorData=event.detail.response;
+                console.log(this.vendorData);
                 break;
             case 'recipe':
                 this.recipes=event.detail.response;
-                this.dispatchEvent('send-recipes',{detail:{item:this.recipes},bubbles:true,composed:true});
+                console.log(this.recipes);
+                this.dispatchEvent(new CustomEvent('send-recipes',{detail:{item:this.recipes},bubbles:true,composed:true}));
                 this.set('route.path','/recipe');
                 break;
             default:break;
@@ -73,7 +79,8 @@ class UserPage extends PolymerElement {
 
     connectedCallback(){
         super.connectedCallback();
-        this._makeAjax('','get',null)
+        this.action='List'
+        this._makeAjax('http://10.117.189.89:8088/foodzone/vendors','get',null)
     }
 
     _makeAjax(url, method, postObj) {

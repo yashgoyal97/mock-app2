@@ -69,7 +69,7 @@ class RecipePage extends PolymerElement {
     }
 
     _handleConfirmOrder(){
-        let orderObj={customerId:this.customerData.customerId,recipes:this.orderList};
+        let orderObj={customerId:this.customerData.id,recipes:this.orderList};
         this.dispatchEvent(new CustomEvent('confirmed-order',{detail:{item:orderObj},bubbles:true,composed:true}));
         this.set('route.path','/payment');
     }

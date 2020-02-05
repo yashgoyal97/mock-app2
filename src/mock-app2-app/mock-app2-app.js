@@ -1,8 +1,15 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import { setPassiveTouchGestures, setRootPath } from '@polymer/polymer/lib/utils/settings.js';
+import '@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
+import '@polymer/app-layout/app-drawer/app-drawer.js';
+import '@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '@polymer/app-layout/app-header-layout/app-header-layout.js';
+import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/app-route/app-route.js';
 import '@polymer/app-route/app-location.js';
+import '@polymer/iron-ajax/iron-ajax.js';
+import '@polymer/paper-icon-button/paper-icon-button.js';
 import './login-page.js';
 import './register-page';
 import './user-page.js';
@@ -29,7 +36,7 @@ class MockApp2App extends PolymerElement {
     <style>
     .container{
       display:grid;
-      grid-template-rows:1fr 1fr 8fr; 
+      grid-template-rows:80px 60px auto; 
       grid-template-columns:1fr;
       grid-template-areas:"h" "n" "m";
       grid-gap:5px;
@@ -75,7 +82,7 @@ class MockApp2App extends PolymerElement {
     <div class="container">
       <div class="header">
       <h2>FOOD-ZONE</h2>
-      <paper-button raised id="logout">LOGOUT</paper-button>
+      <paper-button raised id="logout" on-click="_handleLogout">LOGOUT</paper-button>
       </div>
       <div class="nav">
       <iron-selector selected=[[page]] attr-for-selected="name" role="navigation">
@@ -128,7 +135,6 @@ class MockApp2App extends PolymerElement {
         <pending-page name="pending" id="pending" confirmed-order={{confirmedOrder}}></pending-page>
         <history-page name="history" id="history"></history-page>
         <manage-page name="manage" id="manage"></manage-page>
-        
       </iron-pages>
       </div>
     </div>
@@ -181,6 +187,10 @@ class MockApp2App extends PolymerElement {
     } else {
       this.page = 'view404';
     }
+  }
+
+  _handleLogout(){
+    this.set('route.path','/login');
   }
 
   _pageChanged(page) {

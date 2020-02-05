@@ -80,7 +80,7 @@ class LoginPage extends PolymerElement {
         };
     }
 
-    _handleResponse() {
+    _handleResponse(event) {
         switch (this.action) {
             case 'vendor':
                 this.vendorData = event.detail.response;
@@ -89,6 +89,7 @@ class LoginPage extends PolymerElement {
                 break;
             case 'customer':
                 this.customerData = event.detail.response;
+                console.log(this.customerData);
                 this.dispatchEvent(new CustomEvent('get-customer',{detail:{item:this.customerData},bubbles:true,composed:true}))
                 this.set('route.path','/user');
                 break;
@@ -103,8 +104,7 @@ class LoginPage extends PolymerElement {
 
     _handleCustomerLogin() {
         if (this.$.customerForm.validate()) {
-            let customerObj = { email: this.$.custUsername.value, password: this.$.custPassword.value }
-            console.log(customerObj);
+            let customerObj = { email: this.$.custUsername.value, password: this.$.custPassword.value}
             this.$.customerForm.reset();
             this.action = 'customer';
             this._makeAjaxCall('http://10.117.189.177:8088/foodzone/customers/login', 'post', customerObj);
@@ -115,10 +115,9 @@ class LoginPage extends PolymerElement {
             let email = this.$.vendorUsername.value;
             let password = this.$.vendorPassword.value;
             let vendorObj = { email, password }
-            console.log(vendorObj);
             this.$.customerForm.reset();
             this.action = 'vendor';
-            this.makeAjax('http://10.117.189.177:8088/foodzone/vendors/login', 'post', vendorObj);
+            this._makeAjaxCall('http://10.117.189.177:8088/foodzone/vendors/login', 'post', vendorObj);
         }
     }
 

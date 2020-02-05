@@ -113,7 +113,7 @@ class RegisterPage extends PolymerElement {
             else if (isCustomer.checked) {
                 registerObj = { customerName: this.$.name.value, email: this.$.email.value, phoneNumber: this.$.phone.value, password: this.$.password.value }
                 this.action = 'customerList';
-                this._makeAjax('http://10.117.189.177:8088/foodzone/customers/registration', post, registerObj);
+                this._makeAjax('http://10.117.189.177:8088/foodzone/customers/registration', 'post', registerObj);
             }
             console.log(registerObj)
             isVendor.checked=false;
