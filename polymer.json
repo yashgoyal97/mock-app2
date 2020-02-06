@@ -6,7 +6,7 @@
     ]
   },
     "entrypoint": "index.html",
-    "shell": "src/mock-app2-app.js",
+    "shell": "src/mock-app2-app/mock-app2-app.js",
     "fragments": [
       "src/mock-app2-app/history-page.js",
       "src/mock-app2-app/login-page.js",
