@@ -16,7 +16,7 @@
       "src/mock-app2-app/recipe-page.js",
       "src/mock-app2-app/register-page.js",
       "src/mock-app2-app/user-page.js",
-      "src/vendor-page.js"
+      "src/mock-app2-app/vendor-page.js"
     ],
     "sources": [
      "src/**/*",
