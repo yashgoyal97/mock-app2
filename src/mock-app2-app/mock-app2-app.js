@@ -86,7 +86,7 @@ class MockApp2App extends PolymerElement {
       background-color:white;
       color:black;
     }
-    #customerPortal{
+    .portal{
       position:relative;
       left:700px;
     }
@@ -98,7 +98,7 @@ class MockApp2App extends PolymerElement {
         </div>
         <template is="dom-if" if="{{isVendor}}">
           <div class="portal">
-            <h3><iron-icon icon=""></iron-icon>Vendor Portal</h3>
+            <h3><iron-icon icon="work"></iron-icon>Vendor Portal</h3>
           </div>
         </template>
         <template is="dom-if" if="{{isCustomer}}">
@@ -166,7 +166,7 @@ class MockApp2App extends PolymerElement {
         <order-page name="order" id="order" customer-data={{customerData}}></order-page>
         <vendor-page name="vendor" id="vendor" vendor-data={{vendorData}}></vendor-page>
         <history-page name="history" id="history" vendor-data={{vendorData}}></history-page>
-        <manage-page name="manage" id="manage"></manage-page>
+        <manage-page name="manage" id="manage"  vendor-data={{vendorData}}></manage-page>
       </iron-pages>
       </div>
     </div>
@@ -254,14 +254,14 @@ class MockApp2App extends PolymerElement {
       case 'vendor':
         import('./vendor-page.js');
         break;
-      case 'cart':
-        import('./cart-page.js');
+      case 'payment':
+        import('./payment-page.js');
         break;
       case 'order':
         import('./order-page.js');
         break;
-      case 'pending':
-        import('./pending-page.js');
+      case 'manage':
+        import('./manage-page.js');
         break;
       case 'history':
         import('./history-page.js');

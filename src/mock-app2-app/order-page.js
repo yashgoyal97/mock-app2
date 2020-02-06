@@ -9,6 +9,18 @@ import '@polymer/iron-ajax/iron-ajax.js'
 class OrderPage extends PolymerElement {
     static get template() {
         return html`
+        <style>
+        paper-button{
+            width:300px;
+            background-color:black;
+            color:white;
+        }
+        paper-card{
+            padding:10px;
+            margin:15px;
+            background-color: rgba(255,255,255,0.8);
+        }
+        </style>
         <div class="container">
             <div class="cards">
                 <template is="dom-repeat" items={{orderHistoryList}}>
@@ -26,6 +38,32 @@ class OrderPage extends PolymerElement {
                         </div>
                     </paper-card>
                 </template>
+                <paper-card>
+                        <div class="card-content">
+                        <h2>Delivered</h2>
+                        <h3>Order Id:{{item.orderId}}</h3>
+                        <hr>
+                        <h4>Customer Name:{{item.customer.customerName}}</h4><br>
+                        <h3>Items Orderes:</h3><br>
+                        <template is="dom-repeat" items={{item.recipes}}>
+                            <h4>Name:{{item.recipeName}}</h4><br>
+                            <h4>Price:{{item.unitPrice}}</h4>
+                        </template>
+                        </div>
+                </paper-card>
+                <paper-card>
+                        <div class="card-content">
+                        <h2>Delivered</h2>
+                        <h3>Order Id:{{item.orderId}}</h3>
+                        <hr>
+                        <h4>Customer Name:{{item.customer.customerName}}</h4><br>
+                        <h3>Items Orderes:</h3><br>
+                        <template is="dom-repeat" items={{item.recipes}}>
+                            <h4>Name:{{item.recipeName}}</h4><br>
+                            <h4>Price:{{item.unitPrice}}</h4>
+                        </template>
+                        </div>
+                </paper-card>
             </div>
         </div>
         <iron-ajax id="ajax" on-response="_handleResponse" content-type="application/json" handle-as="json" on-error="_handleError"></iron-ajax>
@@ -65,16 +103,6 @@ class OrderPage extends PolymerElement {
         this.action = 'List';
         console.log("sparsh")
         this._makeAjax('http://10.117.189.177:8088/foodzone/orders/get', 'post', postObj);
-    }
-
-    _handleResponse(event) {
-        switch (this.action) {
-            case 'List':
-
-                break;
-
-            default: break;
-        }
     }
 
     _makeAjax(url, method, postObj) {

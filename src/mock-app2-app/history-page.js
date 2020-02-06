@@ -18,14 +18,40 @@ class HistoryPage extends PolymerElement {
                         <h3>Order Id:{{item.orderId}}</h3>
                         <hr>
                         <h4>Customer Name:{{item.customer.customerName}}</h4><br>
-                        <h3>Items Orderes:</h3><br>
+                        <h3>Items Ordered:</h3><br>
                         <template is="dom-repeat" items={{item.recipes}}>
-                        <h4>Name:{{item.recipeName}}</h4><br>
-                        <h4>Price:{{item.unitPrice}}</h4>
+                            <h4>Name:{{item.recipeName}}</h4><br>
+                            <h4>Price:{{item.unitPrice}}</h4>
                         </template>
                         </div>
                     </paper-card>
                 </template>
+                <paper-card>
+                        <div class="card-content">
+                        <h2>Delivered</h2>
+                        <h3>Order Id:{{item.orderId}}</h3>
+                        <hr>
+                        <h4>Customer Name:{{item.customer.customerName}}</h4><br>
+                        <h3>Items Ordered:</h3><br>
+                        <template is="dom-repeat" items={{item.recipes}}>
+                            <h4>Name:{{item.recipeName}}</h4><br>
+                            <h4>Price:{{item.unitPrice}}</h4>
+                        </template>
+                        </div>
+                </paper-card>
+                <paper-card>
+                    <div class="card-content">
+                    <h2>Delivered</h2>
+                    <h3>Order Id:{{item.orderId}}</h3>
+                    <hr>
+                    <h4>Customer Name:{{item.customer.customerName}}</h4><br>
+                    <h3>Items Ordered:</h3><br>
+                    <template is="dom-repeat" items={{item.recipes}}>
+                        <h4>Name:{{item.recipeName}}</h4><br>
+                        <h4>Price:{{item.unitPrice}}</h4>
+                    </template>
+                    </div>
+                </paper-card>
             </div>
         </div>
         

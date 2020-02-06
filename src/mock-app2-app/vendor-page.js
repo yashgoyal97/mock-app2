@@ -1,5 +1,6 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import '@polymer/iron-ajax/iron-ajax.js';
+import '@polymer/app-route/app-location.js';
 
 
 /**
@@ -9,6 +10,19 @@ import '@polymer/iron-ajax/iron-ajax.js';
 class VendorPage extends PolymerElement {
     static get template() {
         return html`
+        <style>
+        paper-button{
+            width:300px;
+            background-color:black;
+            color:white;
+        }
+        paper-card{
+            padding:10px;
+            margin:15px;
+            background-color: rgba(255,255,255,0.8);
+        }
+        </style>
+        <app-location route={{route}}></app-location>
         <div class="container">
             <div class="cards">
                 <template is="dom-repeat" items={{pendingOrderList}}>
@@ -28,6 +42,36 @@ class VendorPage extends PolymerElement {
                         </div>
                     </paper-card>
                 </template>
+                <paper-card>
+                        <div class="card-content">
+                        <h3>Order Id:{{item.orderId}}</h3>
+                        <hr>
+                        <h4>Customer Name:{{item.customer.customerName}}</h4><br>
+                        <h3>Items Orderes:</h3><br>
+                        <template is="dom-repeat" items={{item.recipes}}>
+                        <h4>Name:{{item.recipeName}}</h4><br>
+                        <h4>Price:{{item.unitPrice}}</h4>
+                        </template>
+                        </div>
+                        <div class="card-action">
+                            <paper-button>DELIVERED</paper-button>
+                        </div>
+                    </paper-card>
+                    <paper-card>
+                        <div class="card-content">
+                        <h3>Order Id:{{item.orderId}}</h3>
+                        <hr>
+                        <h4>Customer Name:{{item.customer.customerName}}</h4><br>
+                        <h3>Items Orderes:</h3><br>
+                        <template is="dom-repeat" items={{item.recipes}}>
+                        <h4>Name:{{item.recipeName}}</h4><br>
+                        <h4>Price:{{item.unitPrice}}</h4>
+                        </template>
+                        </div>
+                        <div class="card-action">
+                            <paper-button>DELIVERED</paper-button>
+                        </div>
+                    </paper-card>
             </div>
         </div>
         

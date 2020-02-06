@@ -44,7 +44,7 @@ class RecipePage extends PolymerElement {
                         <h3>Recipe: <span class="itemValues">{{item.recipeName}}</span></h3>
                         <h4>Price: <span class="itemValues">{{item.unitPrice}}</span></h4>
                         </div>
-                        <div class="card-action">
+                        <div class="cardAction">
                             <paper-button on-click="_handleAddRecipe">ADD</paper-button>
                         </div>
                     </paper-card>
