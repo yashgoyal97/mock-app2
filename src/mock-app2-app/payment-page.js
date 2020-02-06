@@ -17,21 +17,36 @@ class PaymentPage extends PolymerElement {
         <style>
             .paymentModes{
             width:500px;
-            margin-bottom:20px;
-            background-color: rgba(255,255,255,0.8);
+            margin-bottom:10px;
+            background-color: rgba(0,0,0,0.8);
+            color:white;
+            }
+            #paymentPage{
+                padding:20px;
+                background-color: rgba(255,255,255,0.9);
+            }
+            .actionButton{
+                margin:10px 100px 0px 50px;
+                width:300px;
+                background-color:black;
+                color:white;
+            }
         </style>
-        <div>
+        <location route={{route}}></location>
+        <div id="paymentPage">
         <h2 on-click="_handleExpandPayment">Select Payment Mode <iron-icon icon="expand-more"></iron-icon></h2>
-        <iron-collapse class="collapseContent">
+        <iron-collapse class="collapseContent" opened>
         <div id="paymentModes">
         <template is="dom-repeat" items={{paymentDetails}}>
-            <paper-button raised class="paymentModes" on-click="_handlePayment"><h3>{{item.paymentMode}}</h3></paper-button><br>
+            <paper-button raised class="paymentModes" on-click="_handlePayment"><h3>{{item.paymentName}}</h3></paper-button><br>
         </template>
         </div>
         <iron-collapse>
         </div>
-        <iron-ajax id="ajax" on-response="_handleResponse" content-type="application/json" handle-as="json" on-error="_handleError"></iron-ajax>
-    }
+        <div id="recipeAction">
+            <paper-button class="actionButton" on-click="_handleReturnToRecipes">Back</paper-btton>
+        </div>
+        <iron-ajax id="ajax" content-type="application/json" handle-as="json" on-error="_handleError"></iron-ajax>
     `;
     }
 
@@ -48,10 +63,6 @@ class PaymentPage extends PolymerElement {
 
     static get properties() {
         return {
-            action: {
-                type: String,
-                value: 'List'
-            },
             confirmedOrder: {
                 type: Object,
                 value: this.confirmedOrder
@@ -59,37 +70,58 @@ class PaymentPage extends PolymerElement {
             paymentDetails:{
                 type:Array,
                 value:[]
+            },
+            completedOrder:{
+                type:Array,
+                value:[]
+            },
+            paymentCompletedResponse:{
+                type:Array,
+                value:[]
             }
         };
     }
 
+    _handleReturnToRecipes(){
+        this.set('route.path','/recipe');
+    }
+
     _handlePayment(event){
         console.log(this.confirmedOrder);
-        console.log(event.model.item)
+        console.log(event.model.item.paymentName)
+        // let paymentObj={paymentMode:event.model.item}
+        let orderPostReq = (this._postAjaxConfig('http://10.117.189.177:8088/foodzone/orders', 'post', this.confirmedOrder)).generateRequest();
+        let paymentPostReq = (this._getAjaxConfig(`http://10.117.189.177:8088/foodzone/payments/pay?paymentMode=${event.model.item.paymentName}`, 'get')).generateRequest();
+        let thisContext = this;
+        Promise.all([ paymentPostReq.completes,orderPostReq.completes]).then(function (requests) {
+            thisContext.completedOrder = requests[1].response;
+            thisContext.paymentCompletedResponse = requests[0].response;
+            console.log(thisContext.completedOrder, thisContext.paymentCompletedResponse);
+         });
     }
 
-    _handleResponse(event) {
-        switch (this.action) {
-            case 'List':
-                this.paymentDetails=event.detail.response;
-                break;
-
-            default: break;
-        }
-    }
-
-    connectedCallback(){
-        super.connectedCallback()
-        this.action='List';
-        this._makeAjax('','get',null);
-    }
-
-    _makeAjax(url, method, postObj) {
+    _postAjaxConfig(url, method, postObj) {
         let ajax = this.$.ajax;
         ajax.url = url;
         ajax.method = method;
         ajax.body = postObj ? JSON.stringify(postObj) : undefined;
-        ajax.generateRequest();
+        return ajax;
+    }
+
+    connectedCallback(){
+        super.connectedCallback()
+        let paymentReq = (this._getAjaxConfig('http://10.117.189.177:8088/foodzone/payments', 'get')).generateRequest();
+        let thisContext = this;
+        Promise.all([paymentReq.completes]).then(function (requests) {
+            thisContext.paymentDetails = requests[0].response;
+        });
+    }
+
+    _getAjaxConfig(url, method) {
+        let ajax = this.$.ajax;
+        ajax.url = url;
+        ajax.method = method;
+        return ajax;
     }
 }
 

@@ -4,6 +4,7 @@ import '@polymer/polymer/lib/elements/dom-repeat.js';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/app-route/app-location.js';
 import '@polymer/iron-ajax/iron-ajax.js';
+import '@polymer/paper-toast/paper-toast.js';
 
 /**
  * @customElement
@@ -12,14 +13,36 @@ import '@polymer/iron-ajax/iron-ajax.js';
 class RecipePage extends PolymerElement {
     static get template() {
         return html`
+        <style>
+        paper-button{
+            width:300px;
+            background-color:black;
+            color:white;
+        }
+        paper-card{
+            padding:10px;
+            margin:15px;
+            background-color: rgba(255,255,255,0.8);
+        }
+        .itemValues{
+            color:green;
+        }
+        #recipeAction{
+            display:flex;
+            flex-direction:row;
+        }
+        .actionButton{
+            margin:10px 100px 0px 50px;
+        }
+        </style>
         <app-location route={{route}}></app-location>
         <div class="container">
             <div class="cards">
                 <template is="dom-repeat" items={{recipes}}>
-                    <paper-card>
+                    <paper-card image="./../../images/recipe.jfif">
                         <div class="card-content">
-                        <h3>{{item.recipeName}}</h3>
-                        <h4>{{item.unitPrice}}</h4>
+                        <h3>Recipe: <span class="itemValues">{{item.recipeName}}</span></h3>
+                        <h4>Price: <span class="itemValues">{{item.unitPrice}}</span></h4>
                         </div>
                         <div class="card-action">
                             <paper-button on-click="_handleAddRecipe">ADD</paper-button>
@@ -27,10 +50,13 @@ class RecipePage extends PolymerElement {
                     </paper-card>
                 </template>
             </div>
-            <div id="confirmOrder">
-            <paper-button on-click="_handleConfirmOrder">CONFIRM ORDER</paper-button>
+            <div id="recipeAction">
+            <paper-button on-click="_handleConfirmOrder" class="actionButton">Confirm Order</paper-button>
+            <paper-button class="actionButton" on-click="_handleReturnToVendors">Back</paper-btton>
             </div>
         </div>
+        <paper-toast id="toastA" text="Item Added"></paper-toast>
+        
     `;
     }
 
@@ -63,8 +89,13 @@ class RecipePage extends PolymerElement {
         };
     }
 
+    _handleReturnToVendors(){
+        this.set('route.path','/user');
+    }
+
     _handleAddRecipe(event){
         let recipeId = event.model.item.recipeId;
+        this.$.toastA.open();
         this.push('orderList',recipeId);
     }
 

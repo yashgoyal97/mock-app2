@@ -21,7 +21,7 @@ class RegisterPage extends PolymerElement {
             }
             #registrationContainer{
                 padding:20px;
-                border:2px solid;
+                background-color: rgba(255,255,255,0.8);
                 border-radius:5px;
                 width:700px;
             }
@@ -30,9 +30,14 @@ class RegisterPage extends PolymerElement {
             }
             paper-button{
                 margin:5px 0px 5px 0px;
+                background-color:black;
+                color:white;
             }
             #password{
                 display:none;
+            }
+            #userType{
+                margin:15px 0px 15px 0px;
             }
         </style>
         <app-location route={{route}}></app-location>

@@ -14,16 +14,26 @@ class UserPage extends PolymerElement {
     static get template() {
         return html`
         <style>
+        paper-button{
+            width:300px;
+            background-color:black;
+            color:white;
+        }
+        paper-card{
+            padding:10px;
+            margin:15px;
+            background-color: rgba(255,255,255,0.8);
+        }
         </style>
         <app-location route={{route}}></app-location>
         <div class="cards">
         <template is="dom-repeat" items={{vendorData}}>
-            <paper-card image="./../../images/vendors.jpg">
+            <paper-card image="./../../images/vendor.jfif">
                 <div class="card-content">
                  <h3>{{item.vendorName}}</h3>
                 </div>
                 <div class="card-action">
-                    <paper-button on-click="_handleGetRecipe">ORDER</paper-button>
+                    <paper-button on-click="_handleGetRecipe" raised>View Recipes</paper-button>
                 </div>
             </paper-card>
         </template>
@@ -57,8 +67,7 @@ class UserPage extends PolymerElement {
 
     _handleGetRecipe(event){
         this.action="recipe";
-        console.log(this.customerData,"in user")
-        this._makeAjax(`http://10.117.189.89:8088/foodzone/vendors/${event.model.item.vendorId}/recipes`,'get',null)
+        this._makeAjax(`http://10.117.189.177:8088/foodzone/vendors/${event.model.item.vendorId}/recipes`,'get',null)
     }
 
     _handleResponse(event) {
@@ -80,7 +89,7 @@ class UserPage extends PolymerElement {
     connectedCallback(){
         super.connectedCallback();
         this.action='List'
-        this._makeAjax('http://10.117.189.89:8088/foodzone/vendors','get',null)
+        this._makeAjax('http://10.117.189.177:8088/foodzone/vendors','get',null)
     }
 
     _makeAjax(url, method, postObj) {
