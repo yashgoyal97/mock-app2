@@ -8,15 +8,15 @@
     "entrypoint": "index.html",
     "shell": "src/mock-app2-app.js",
     "fragments": [
-      "/src/history-page.js",
-      "/src/login-page.js",
-      "/src/manage-page.js",
-      "/src/order-page.js",
-      "/src/payment-page.js",
-      "/src/recipe-page.js",
-      "/src/register-page.js",
-      "/src/user-page.js",
-      "/src/vendor-page.js"
+      "src/history-page.js",
+      "src/login-page.js",
+      "src/manage-page.js",
+      "src/order-page.js",
+      "src/payment-page.js",
+      "src/recipe-page.js",
+      "src/register-page.js",
+      "src/user-page.js",
+      "src/vendor-page.js"
     ],
     "sources": [
      "src/**/*",
