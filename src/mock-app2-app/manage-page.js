@@ -5,7 +5,7 @@ import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-dialog/paper-dialog.js';
 import '@polymer/iron-form/iron-form.js';
 import '@polymer/paper-input/paper-input.js';
-
+import '@polymer/paper-toast/paper-toast.js';
 
 /**
  * @customElement
@@ -45,16 +45,27 @@ class ManagePage extends PolymerElement {
                 <paper-button on-click="_handleAddRecipe">Add Recipe</paper-button>
                 </div>
                 </paper-dialog>
+
+
                 <div class="cards">
-                    <template is="dom-repeat" items={{}}>
+                    <template is="dom-repeat" items={{vendorRecipeList}}>
                         <paper-card>
-                            <div class="card-content"></div>
-                            <div class="cardAction"></div>
+                            <div class="card-content">
+                                <h2>Recipe Name: {{item.recipeName}}</h2>
+                                <h3>Price: Rs.{{item.unitPrice}}</h3>
+                            </div>
+                            <hr>
+                            <div class="cardAction">
+                                <paper-toggle>Recipe Availability:</paper-toggle>
+                            </div>
                         </paper-card>
                     </template>
                 </div>
+
+
             </div>
         </div>
+        <paper-toast id="toastB" text="New recipe added successfully!!"></paper-toast>
         <iron-ajax id="ajax" on-response="_handleResponse" content-type="application/json" handle-as="json" on-error="_handleError"></iron-ajax>
     `;
     }
@@ -81,6 +92,7 @@ class ManagePage extends PolymerElement {
                 this.vendorRecipeList = event.detail.response;
                 break;
             case 'addNew':
+                this.$.toastB.open();
                 break;
 
             default: break;
@@ -107,8 +119,9 @@ class ManagePage extends PolymerElement {
 
     _handleAddRecipe(){
         let addRecipeObj={name:this.$.recipeName, unitPrice:this.$.unitPrice, vendorId:this.vendorInfo.id}
-        this.action='addNew'
-        
+        this.action='addNew';
+        this.$.addNewRecipeDialog.close()
+        this._makeAjax(`http://10.117.189.177:8088/foodzone/vendors/${this.vendorInfo.id}/recipes`, 'post', addRecipeObj);    
     }
 }
 
