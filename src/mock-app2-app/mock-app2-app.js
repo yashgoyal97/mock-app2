@@ -97,12 +97,12 @@ class MockApp2App extends PolymerElement {
           <h2>FOOD-ZONE<iron-icon icon="all-out"></iron-icon></h2>
         </div>
         <template is="dom-if" if="{{isVendor}}">
-          <div id="vendorPortal">
-            <h3>Vendor Portal</h3>
+          <div class="portal">
+            <h3><iron-icon icon=""></iron-icon>Vendor Portal</h3>
           </div>
         </template>
         <template is="dom-if" if="{{isCustomer}}">
-          <div id="customerPortal">
+          <div class="portal">
             <h3><iron-icon icon="face"></iron-icon>Customer Portal</h3>
           </div>
         </template>
