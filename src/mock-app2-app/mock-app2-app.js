@@ -94,7 +94,7 @@ class MockApp2App extends PolymerElement {
     <div class="container">
       <div class="header">
         <div id="appLabel">
-          <h2>FOOD-ZONE<iron-icon icon="all-out"></iron-icon></h2>
+          <h2>FOOD-ZONE</h2>
         </div>
         <template is="dom-if" if="{{isVendor}}">
           <div class="portal">
@@ -226,7 +226,7 @@ class MockApp2App extends PolymerElement {
   _routePageChanged(page) {
     if (!page) {
       this.page = 'login';
-    } else if (['login', 'register', 'user', 'vendor', 'order', 'pending', 'history', 'recipe', 'payment'].indexOf(page) !== -1) {
+    } else if (['login', 'register', 'user', 'vendor', 'order', 'pending', 'history', 'recipe', 'payment','manage'].indexOf(page) !== -1) {
       this.page = page;
     } else {
       this.page = 'view404';

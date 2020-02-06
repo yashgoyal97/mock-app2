@@ -62,8 +62,8 @@ class RegisterPage extends PolymerElement {
         <paper-dialog id="myTicketDialog" modal>
                 <div>
                 <h3>Login Credentials:</h3>
-                    - Use your Email Id as password<br>
-                    - Password: {{registrationResponse.password}}
+                - <h4>Username: </h4>Use your Email Id<br>
+                - <h4>Password: </h4>{{registrationResponse.password}}
                     <hr>
                     <paper-button dialog-confirm autofocus raised>Tap me to close</paper-button>
                 </div>

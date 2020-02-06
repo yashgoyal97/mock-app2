@@ -9,6 +9,18 @@ import '@polymer/iron-ajax/iron-ajax.js';
 class HistoryPage extends PolymerElement {
     static get template() {
         return html`
+        <style>
+        paper-button{
+            width:300px;
+            background-color:black;
+            color:white;
+        }
+        paper-card{
+            padding:10px;
+            margin:15px;
+            background-color: rgba(255,255,255,0.8);
+        }
+        </style>
         <div class="container">
             <div class="cards">
                 <template is="dom-repeat" items={{pendingOrderList}}>
